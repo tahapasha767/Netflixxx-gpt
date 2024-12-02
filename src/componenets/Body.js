@@ -2,7 +2,15 @@ import React from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Login from './Login'
 import Browser from './Browser'
+import { useEffect } from 'react'
+import { auth } from '../utilies/firebase'
+
+ 
+
+
 function Body() {
+  //  const dispatch=useDispatch();
+    //const navigate=useNavigate();
     const appBrowser=createBrowserRouter([
         {
            path:"/",
@@ -14,6 +22,7 @@ function Body() {
         }
 
     ])
+  
   return (
     <div>
         <RouterProvider router={appBrowser} >
@@ -22,5 +31,6 @@ function Body() {
     </div>
   )
 }
+
 
 export default Body
