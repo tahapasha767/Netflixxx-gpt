@@ -11,11 +11,13 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from 'react-redux'
 import { adduser,removeUser} from '../utilies/userSlice'
 //import { useNavigate } from 'react-router-dom'
+import Header from './Header';
 
 
 
 function Browser() {
    // const navigate=useNavigate();
+
     const dispatch=useDispatch();
     const navigate=useNavigate();
     const [flag_for_log,set_flag]=useState(true);
@@ -24,28 +26,23 @@ function Browser() {
     const username=useRef();
     const [valid_data,setvalid_data]=useState();
     const auth=getAuth();
-    useEffect(()=>{
-      onAuthStateChanged(auth, (user) => {
+    useEffect(() => {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
-          // User is signed in, see docs for a list of available properties
-          // https://firebase.google.com/docs/reference/js/auth.user
-          const {uid,email} = user;
-          dispatch(adduser({
-            uid:uid,
-            email:email
-          }))
+          // User is signed in
+          const { uid, email } = user;
+          dispatch(adduser({ uid, email }));
           navigate("/browse");
-
-          // ...
         } else {
-          dispatch(removeUser());
           // User is signed out
-          // ...
+          dispatch(removeUser());
         }
       });
-
-
-    },[])
+    
+      // Cleanup function to unsubscribe the listener
+      return () => unsubscribe();
+    }, []);
+    
   
     const getuserinfo=()=>{
         if(!set_flag)
@@ -83,16 +80,17 @@ function Browser() {
 
     }
   return (
-    <div className="relative">
+    <div className="relative ">
+         <Header/>
   <img
     className="concord-img vlv-creative h-[100vh] w-full"
     src="https://assets.nflxext.com/ffe/siteui/vlv3/2bcf01ee-7ef6-4930-b0d5-c6863853c461/web/IN-en-20241125-TRIFECTA-perspective_a47db038-756f-4f26-b1f7-cfc882b98746_small.jpg"
     srcSet="https://assets.nflxext.com/ffe/siteui/vlv3/2bcf01ee-7ef6-4930-b0d5-c6863853c461/web/IN-en-20241125-TRIFECTA-perspective_a47db038-756f-4f26-b1f7-cfc882b98746_small.jpg 1000w, https://assets.nflxext.com/ffe/siteui/vlv3/2bcf01ee-7ef6-4930-b0d5-c6863853c461/web/IN-en-20241125-TRIFECTA-perspective_a47db038-756f-4f26-b1f7-cfc882b98746_medium.jpg 1500w, https://assets.nflxext.com/ffe/siteui/vlv3/2bcf01ee-7ef6-4930-b0d5-c6863853c461/web/IN-en-20241125-TRIFECTA-perspective_a47db038-756f-4f26-b1f7-cfc882b98746_large.jpg 1800w"
     alt=""
   />
-  <div className="w-[400px] h-[520px] bg-black bg-opacity-75 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg">
+  <div className="w-[400px] h-[520px] bg-black bg-opacity-75 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg mt-14">
 
-  <div className='text-white mx-14 my-8 text-3xl font-bold'>
+  <div className='text-white mx-14 my-8 text-3xl font-bold '>
    {flag_for_log? "Sign In":"Sign Up"}
   </div>
   <div>
