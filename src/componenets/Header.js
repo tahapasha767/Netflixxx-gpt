@@ -6,8 +6,12 @@ import { useDispatch } from 'react-redux';
 import { adduser } from '../utilies/userSlice';
 import { removeUser } from '../utilies/userSlice';
 import { auth } from '../utilies/firebase';
+import { change_the_flag } from '../utilies/gptSlice';
+import Dropdown from './Dropdown';
+import { useSelector } from 'react-redux';
 
 function Header() {
+    const flagger=useSelector(store=>store.gpt.flag_for_gpt);
     const[flag,set_flag]=useState(false);
     const dispatch=useDispatch();
 
@@ -62,7 +66,15 @@ className="default-ltr-cache-1d568uk ev1dnif2 w-24 m-7 z-50"
   ></path>
 </g>
 </svg>
+
+
 {flag&&<div className='flex'>
+    <button onClick={()=>{
+        dispatch(change_the_flag());
+    }} className='text-white hover:scale-110 bg-purple-700 h-6 mt-7 px-4 rounded-md '>
+{flagger?"Home":"Gpt-search"}
+</button>
+<Dropdown/>
 <span className='mt-7 mx-3 cursor-pointer text-white ' onClick={()=>{
 handlelogout();
 }}>Log Out</span>

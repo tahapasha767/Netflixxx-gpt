@@ -8,14 +8,18 @@ import { addNowPlayingMovies } from '../utilies/movieSlice';
 import Header from './Header';
 import MainContainer from './MainContainer';
 import Secondarycontainer from './Secondarycontainer';
+import { useSelector } from 'react-redux';
+import Gptcompo from './Gptcompo';
 
 function Login() {
   
   const dispatch=useDispatch();
+  const flag_for_gpt=useSelector((store)=>store.gpt?.flag_for_gpt)
+  console.log(flag_for_gpt)
   async function make_api_call(){
     const data=await fetch("https://api.themoviedb.org/3/movie/now_playing?language=en-US", options)
     const res= await data.json();
-    console.log(res.results);
+   // console.log(res.results);
     dispatch(addNowPlayingMovies(res));
 
   }
@@ -29,10 +33,17 @@ function Login() {
 
   
   return (
-    <div>
+    <div className='bg-black'>
     <Header/>
+    
+    {flag_for_gpt?
+    <Gptcompo/>:
+    <>
     <MainContainer/>
     <Secondarycontainer/>
+    </>
+    
+    }
     </div>
   )
 }

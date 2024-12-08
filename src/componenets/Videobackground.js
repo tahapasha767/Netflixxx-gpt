@@ -35,7 +35,7 @@ function Videobackground({ movie_id }) {
     }
 
     return (
-        <div className="w-screen absolute ">
+        <div className="w-screen absolute z-10 ">
             <iframe 
                 className="w-screen h-[100vh]"
                 
